@@ -12,6 +12,7 @@ nltk<br/>
 sklearn<br/>
 joblib<br/>
 scikit-learn==0.19.1<br/>
+You can install these by typing 'pip install -r requirements.txt' into a command prompt.
 
 ### File description
 The **data** folder contains the raw data, and a .py file for wrangling that data and saving it as an SQL database<br/>
