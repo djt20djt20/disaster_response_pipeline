@@ -3,3 +3,15 @@ This repo contains the code for my disaster-response machine learning pipeline. 
 rescue department the message ought to be sent.
 ### Libraries
 In this project, I used the following libraries:
+Flask<br/>
+sqlalchemy<br/>
+pandas <br/>
+numpy<br/>
+plotly<br/>
+nltk<br/>
+sklearn<br/>
+joblib<br/>
+scikit-learn==0.19.1<br/>
+
+### File description
+
