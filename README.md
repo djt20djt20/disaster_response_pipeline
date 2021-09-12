@@ -14,4 +14,9 @@ joblib<br/>
 scikit-learn==0.19.1<br/>
 
 ### File description
+The **data** folder contains the raw data, and a .py file for wrangling that data and saving it as an SQL database<br/>
+The **models** folder contains the code for the model, which takes in the SQL data saved above<br/>
+The **templates** folder contains templates for the associated webpage<br/>
+**app.py** contains a flask app, along with three data visualizations
+
 
