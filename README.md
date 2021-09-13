@@ -20,4 +20,9 @@ The **models** folder contains the code for the model, which takes in the SQL da
 The **templates** folder contains templates for the associated webpage<br/>
 **app.py** contains a flask app, along with three data visualizations
 
-
+### Instructions
+- Launch a command line interface in the base directory
+- Install the requirements with 'pip install -r requirements.txt'
+- In the base directory, run the data processing script by typing 'python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db'
+- In the base directory, train the model by typing 'python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl'
+- In the base directory, run the web app by typeing 'python app.py'
