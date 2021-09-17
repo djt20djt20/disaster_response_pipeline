@@ -1,16 +1,12 @@
 import json
-
 import plotly
 import pandas as pd
-
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 import joblib
-
 from sqlalchemy import create_engine
 import sklearn
 from sklearn.ensemble import RandomForestClassifier
@@ -69,7 +65,7 @@ class StartingVerbExtractor():
         return pd.DataFrame(X_tagged)
 
 # load data
-engine = create_engine('sqlite:///data.db')
+engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('data', engine)
 
 # load model

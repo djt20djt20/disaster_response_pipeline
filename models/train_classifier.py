@@ -18,15 +18,17 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
 nltk.download('averaged_perceptron_tagger')
 import pickle
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.multioutput import MultiOutputClassifier
 
 def load_data(database_filepath):
     # this function loads in the data and splits into X and Y
     
     # create an engine object in sqlalchemy, and load in the database
-    engine = create_engine('sqlite:///data.db')
+    engine = create_engine('sqlite:///' + database_filepath)
     
     # turn the table 'data' table into a dataframe, and split into X and Y
-    df = pd.read_sql("SELECT * FROM data", engine)
+    df = pd.read_sql("SELECT * FROM main", engine)
     
     # get the category names
     categories = list(set(df.columns).difference(set(['id', 'message', 'original', 'genre'])))
@@ -95,9 +97,29 @@ class StartingVerbExtractor():
         return pd.DataFrame(X_tagged)
 
 def build_model():
+    #pipeline = Pipeline([
+    #    ('features', FeatureUnion([('text_pipeline', Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
+    #                                                           ('tfidf', TfidfTransformer()) ])), 
+    #                              ('starting_verb', StartingVerbExtractor()) ])), 
+    #    ('clf', MultiOutputClassifier(RandomForestClassifier())) ]) 
     pipeline = Pipeline([
-        ('features', FeatureUnion([('text_pipeline', Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),('tfidf', TfidfTransformer()) ])), ('starting_verb', StartingVerbExtractor()) ] )), ('clf', RandomForestClassifier()) ]) 
-    return pipeline
+    ('vect', CountVectorizer(tokenizer=tokenize)),
+    ('tfidf', TfidfTransformer()),
+    ('clf',  MultiOutputClassifier(RandomForestClassifier()))
+     ])
+
+    parameters = {
+        #'vect__ngram_range': ((1, 1), (1, 2)),
+        #'vect__max_df': (0.5, 0.75, 1.0),
+        'vect__max_features': (None, 5000),
+        #'clf__n_estimators': [50, 100, 200],
+        #'clf__min_samples_split': [2, 3, 4],
+
+    }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+
+    return cv
 
 
 

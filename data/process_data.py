@@ -31,11 +31,19 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+
+    # replace '2's with '1's in columns
+    for col in df.columns:
+        column = df[col]
+        df[col] = column.replace(0,1)
+    
+    # return a dataframe without the duplacates
     return df[~df.duplicated()]
 
 
 def save_data(df, database_filename):
-    engine = create_engine('sqlite:///data.db')
+    # saves the data to an sql database
+    engine = create_engine('sqlite:///' + database_filename)
     df.to_sql('data', engine, index=False)
 
 
