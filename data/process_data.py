@@ -35,7 +35,7 @@ def clean_data(df):
     # replace '2's with '1's in columns
     for col in df.columns:
         column = df[col]
-        df[col] = column.replace(0,1)
+        df[col] = column.replace(2,1)
     
     # return a dataframe without the duplacates
     return df[~df.duplicated()]
@@ -44,7 +44,7 @@ def clean_data(df):
 def save_data(df, database_filename):
     # saves the data to an sql database
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('data', engine, index=False)
+    df.to_sql('main', engine, index=False)
 
 
 def main():

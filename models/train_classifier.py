@@ -21,7 +21,7 @@ import pickle
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multioutput import MultiOutputClassifier
 
-def load_data(database_filepath):
+def load_data (database_filepath):
     # this function loads in the data and splits into X and Y
     
     # create an engine object in sqlalchemy, and load in the database
@@ -97,17 +97,14 @@ class StartingVerbExtractor():
         return pd.DataFrame(X_tagged)
 
 def build_model():
-    #pipeline = Pipeline([
-    #    ('features', FeatureUnion([('text_pipeline', Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
-    #                                                           ('tfidf', TfidfTransformer()) ])), 
-    #                              ('starting_verb', StartingVerbExtractor()) ])), 
-    #    ('clf', MultiOutputClassifier(RandomForestClassifier())) ]) 
+    # create a pipeline 
     pipeline = Pipeline([
     ('vect', CountVectorizer(tokenizer=tokenize)),
     ('tfidf', TfidfTransformer()),
     ('clf',  MultiOutputClassifier(RandomForestClassifier()))
      ])
 
+    # select parameters for the Grid search
     parameters = {
         #'vect__ngram_range': ((1, 1), (1, 2)),
         #'vect__max_df': (0.5, 0.75, 1.0),
@@ -117,6 +114,7 @@ def build_model():
 
     }
 
+    # create the gridsearch object
     cv = GridSearchCV(pipeline, param_grid=parameters)
 
     return cv
@@ -125,8 +123,10 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    
+    # create model output
     Y_pred = model.predict(X_test)
+
+    # create a report for each catgegory
     for i,colname in enumerate(category_names):
         pred = [line[i] for line in Y_pred]
         true = Y_test.iloc[:,i]
@@ -136,6 +136,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    #save the model as a pickle
     pickle.dump(model, open(model_filepath, 'wb'))
 
 

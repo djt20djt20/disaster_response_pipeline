@@ -66,7 +66,7 @@ class StartingVerbExtractor():
 
 # load data
 engine = create_engine('sqlite:///data/DisasterResponse.db')
-df = pd.read_sql_table('data', engine)
+df = pd.read_sql_table('main', engine)
 
 # load model
 model = joblib.load("models/classifier.pkl")
